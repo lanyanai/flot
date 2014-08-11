@@ -1,0 +1,193 @@
+单个图表对象的参数
+{
+
+    color: color or number   //颜色
+
+    data: rawdata  //数据
+
+    label: string  //曲线名称
+
+    lines: specific lines options  //折线图坐标参数
+
+    bars: specific bars options   //直方图坐标参数
+
+    points: specific points options  //散点图坐标参数
+
+    xaxis: 1 or 2  //使用哪一条X轴，如果某条数轴没有被任何一条曲线使用，该数轴不会在图表上出现
+
+    yaxis: 1 or 2  //使用哪一条Y轴
+
+    clickable: boolean  //允许监听鼠标点击事件
+
+    hoverable: boolean  //允许监听鼠标悬停事件
+
+    shadowSize: number //曲线阴影
+
+}
+
+图表顶部标题，内容包括每条曲线的名称及其对应颜色
+legend: {
+    show: boolean //是否显示
+    labelFormatter: null or (fn: string, series object -> string)//函数，定制显示的格式，参数为曲线名称label以及曲线对应的曲线对象
+    labelBoxBorderColor: color//边框颜色
+    noColumns: number//控制列数
+    position: "ne" or "nw" or "se" or "sw"//显示位置north-east north-west south-east south-west
+    margin: number of pixels or [x margin, y margin]//外边距
+    backgroundColor: null or color//背景颜色
+    backgroundOpacity: number between 0 and 1 //背景透明度
+    container: null or jQuery object/DOM element/jQuery expression //添加到其他DOM中
+    sorted: null/false, true, "ascending", "descending", "reverse", or a comparator //是否排序
+}
+数轴定制
+xaxis, yaxis, x2axis, y2axis: {
+
+    mode: null or "time"  //数轴是否为时间模式
+
+    min: null or number  //数轴最小值，未指明则自动使用数据中的
+
+    max: null or number  //数轴最大值
+
+    autoscaleMargin: null or number  //按百分比为数轴延长一小段来缩放曲线以避免曲线最远的数据点出现在图表边框上
+                                     //延长的距离为单位刻度的整数倍，且刚好不小于(max-min)*number，其中min端增加1个刻度单位的长度,当对应数轴的min和max值至少一个为null时才生效
+                                     //其中一个特例是，如果数据点的最小值为0，则min端不增长数轴，数据点会出现的边框上
+                                     //对X轴，该值默认为null，对Y轴，该值默认为0.02
+
+
+
+    labelWidth: null or number
+
+    labelHeight: null or number//用于设置数轴刻度标签的高宽，这个属性在你需要排列整齐几个图表的时候会派上用场
+
+
+
+    transform: null or fn: number -> number
+
+    inverseTransform: null or fn: number -> number//用于改变数轴上的数据显示方式，你可以设计一个函数来非线性地扩展或压缩数轴上的特定数据段
+
+
+
+    ticks: null or number or ticks array or (fn: range -> ticks array) //通过设置"ticks" 的值为数字，你可以设置图表产生刻度间隔的个数,如果你想完全的自定义刻度，可以设置参数"ticks"的值为一个数组，或者像下面的例子，连刻度的标签也自定义，这两种方法可以混合使用，刻度可以用函数来生成，方法是把一个函数赋给"ticks"，该函数应该以一个具有最大刻度值及最小刻度值的数轴对象为参数，该函数返回一个刻度数组赋给"ticks"
+
+    tickSize: number or array //直接跳过估算步骤设置刻度间隔步长
+
+    minTickSize: number or array //可以设置刻度间隔的最小值
+
+    tickFormatter: (fn: number, object -> string) or string//可以通过函数来设置刻度显示格式，格式函数有2个参数，刻度值及数轴对象。函数应该返回一个字符串赋给tickFormatter。
+
+
+    tickDecimals: null or number//用于设置刻度的小数位数，默认情况下程序会自动判断截取
+
+    timeformat: null or format string //null 或格式化字符串
+    %h: hours
+    %H: hours (left-padded with a zero)
+    %M: minutes (left-padded with a zero)
+    %S: seconds (left-padded with a zero)
+    %d: day of month (1-31)
+    %m: month (1-12)
+    %y: year (four digits)
+    %b: month name (customizable)
+    %p: am/pm, additionally switches %h/%H to 12 hour instead of 24
+    %P: AM/PM (uppercase version of %p)
+
+    monthNames: null or array of size 12 of strings //null或一个长度为12的字符串数组
+
+    twelveHourClock: boolean   //12时模式
+
+  }
+
+数据显示定制，"series: {}"对每一个数据序列生效，可以用来为图表设置全局参数，如果需要为特定数据序列的图表设置不同属性，可以在对应的数据序列对象里面设置相应的参数把全局参数覆盖掉。 "lines", "points" 和 "bars"是最重要的参数，这些参数设置每条数据序列的图表的折线图、散点图、直方图是否显示和如何显示。
+lines, points, bars: {
+      show: boolean  //是否显示
+      lineWidth: number //"lineWidth"用于设置折线图线条的粗细或其他图型的边框，你可以把这个值设置成0来关闭折线图的输出
+      fill: boolean or number  //"fill" 用于设置图表填充的透明度(0-1)，对于折线，填充范围是折线与数轴围成的区域
+      fillColor: null or color/gradient //"fillColor" 设置填充颜色，如果填null,将使用线条颜色一致的颜色，如果颜色名解析失败将使用默认颜色(折线图直方图黑色，散点图白色) 直方图的填充颜色可以是渐变的
+    }
+
+    points: {
+      radius: number//点半径
+    }
+
+    bars: {
+      barWidth: number //设置直方图的宽度，单位是数轴的单位而非像素
+      align: "left" or "center"//"align" 用于设置数据点对应刻度线与直方图之间的对齐关系，默认情况下，刻度线在直方图的左侧(left,靠近数轴最小值一侧)
+      horizontal: boolean//
+    }
+
+    lines: {
+      steps: boolean//"steps"可以设置是否使用阶梯状折线，设置为true采用阶梯状折线，相邻2个数据点之间先以水平线连接，然后用垂直线连接
+    }
+    shadowSize: number//可以设置曲线阴影大小，设置为0关闭阴影效果。
+}
+
+"colors"可以预定义一系列颜色保存在数组里供曲线使用，你可以设置任意多种颜色。
+
+背景栅格定制grid
+grid: {
+
+    show: boolean
+
+    aboveData: boolean
+
+    color: color //"color"定义的是grid的颜色，包括刻度值标签的颜色
+
+    backgroundColor: color/gradient or null//背景颜色"backgroundColor"是填充在grid内部的，默认情况下背景是透明的，可以为背景设置颜色渐变
+
+    tickColor: color //设置刻度线的颜色
+
+    labelMargin: number //设置刻度值标签与网格的距离
+
+    markings: array of markings or (fn: axes -> array of markings)//"markings" 用于在背景上绘画出一块矩形，矩形的位置及长宽通过纵横轴的起始终止坐标来确定
+
+    borderWidth: number //设置边框宽度，设为0则取消边框
+
+    borderColor: color or null //设置边框颜色
+
+    clickable: boolean //"clickable" 设置为true时，图表将监听鼠标单击事件，单击图表时将触发"plotclick"事件，回调函数的参数是鼠标坐标和数据点的坐标值，即以像素为单位的位置坐标及以数轴为单位的数据坐标。
+
+    hoverable: boolean//"hoverable" 设置为true将监听鼠标移动事件，鼠标移动到某个位置时发生"plothover"事件,回调函数的参数与"clickable"一致，
+
+    autoHighlight: boolean //"autoHighlight"的值为true，则发生"hoverable"事件和"plotclick"事件时，数据点显示高亮效果,数据点高亮的发生及消失对应有highlight/unhighlight方法
+
+    mouseActiveRadius: number //"mouseActiveRadius" 用来设置可以激活数据点的鼠标与数据点之间的距离，如果在符合距离内有多个数据点，flot会激活最近的数据点
+
+  }
+
+  定义变化模式：渐变
+渐变：backgroundColor: { colors: ["#000", "#999"] }
+
+plot提供的方法：
+
+highlight(series, datapoint)  //激活数据点 series：曲线编号，datapoint：数据点在曲线数据序列中的编号，编号都是从0开始 例如：highlight(1, 1) 激活第二条曲线的第二个数据点，datapoint 也可以是一个数据点的真实数据对象，是一个数组， 例如： highlight(1, [3,6]) 激活第二条曲线上坐标为[3,6]的点
+
+unhighlight(series, datapoint) or unhighlight()，如果unhighlight()没有设置参数，取消所有数据点的激活状态
+
+setData(data) 重新设置曲线数据，参数data是plot(placeholder, data, options)中的data参数，可以不包含options的设置内容
+重新设置数据后，如果需要立即改变图表显示，请调用draw()方法来重新绘制图表
+setData()方法并不会重新设置数轴的缩放比例、刻度、曲线名称等，如果需要修改这些属性，请使用setupGrid()方法
+
+setupGrid() 修改数轴、刻度、曲线名称等，参数是 options 不包括data部分
+
+draw()重绘图表的canvas
+
+triggerRedrawOverlay()  添加一个覆盖在图标上的canvas
+
+width()/height()    获取图表栅格的宽和高，宽高值会比canvas和占位符的尺寸小
+
+offset()    获取图表的绘制区相对文档的坐标，鼠标事件触发获取的文档坐标减去该坐标将得到当前位置相对于绘图区的位置偏移
+
+pointOffset({ x: xpos, y: ypos })   获取某个数据点位置相对于占位符的偏移。注意，不是相对canvas,而是相对于DIV，可以为数据点的值注明采用的数轴，默认采用第一坐标系。
+
+getData()   获取plot(placeholder, data, options) 函数的data 和 options 合成的数据
+
+getAxes()   该方法返回数轴信息的json对象，该对象有四个成员，分别为xaxis, yaxis, x2axis, y2axis 四条数轴
+
+getPlaceholder()    获取图表容器div，返回的是一个json对象
+
+getCanvas() 获取绘制区canvas，返回的是一个json对象
+
+getPlotOffset() 获取栅格边缘与canvas边缘之间的距离，有数轴的一边间隔会大一些，因为需要缩小栅格防止数轴叠加在栅格上。
+
+getOptions()    获取绘制函数的options参数，返回的是一个json对象
+
+事件钩子
+

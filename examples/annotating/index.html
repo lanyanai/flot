@@ -28,7 +28,8 @@
 		var placeholder = $("#placeholder");
 
 		var plot = $.plot(placeholder, data, {
-			bars: { show: true, barWidth: 0.5, fill: 0.9 },
+      points:{show:true},
+			//bars: { show: true, barWidth: 0.5, fill: 0.9 },
 			xaxis: { ticks: [], autoscaleMargin: 0.02 },
 			yaxis: { min: -2, max: 2 },
 			grid: { markings: markings }
